@@ -18,13 +18,23 @@ public class Planet {
       xxVel = p.xxVel; yyVel = p.yyVel;
       mass = p.mass;   imgFileName = p.imgFileName;
   }
+
   /** calculate the distance between this Planet and the other Planet */
   public double calcDistance(Planet other) {
       return Math.sqrt((other.xxPos - this.xxPos)*(other.xxPos - this.xxPos) +
                        (other.yyPos - this.yyPos)*(other.yyPos - this.yyPos));
   }
 
+  /** calculate the force exerted by the other Planet */
   public double calcForceExertedBy(Planet other) {
     return 6.67E-11 * this.mass * other.mass / (calcDistance(other) * calcDistance(other));
+  }
+
+  /** calculate the force exerted by other Planet on X and Y direction */
+  public double calcForceExertedByX(Planet other) {
+    return calcForceExertedBy(other) * (other.xxPos - this.xxPos) / calcDistance(other);
+  }
+  public double calcForceExertedByY(Planet other) {
+    return calcForceExertedBy(other) * (other.yyPos - this.yyPos) / calcDistance(other);
   }
 }
