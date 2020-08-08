@@ -37,4 +37,26 @@ public class Planet {
   public double calcForceExertedByY(Planet other) {
     return calcForceExertedBy(other) * (other.yyPos - this.yyPos) / calcDistance(other);
   }
+
+  /** calculate the net force exerted by a group of Planets on X and Y direction */
+  public double calcNetForceExertedByX(Planet[] others) {
+    int index = 0;
+    double distance = 0.0;
+    for (; index < others.length; index++) {
+      if (!this.equals(others[index])) {
+          distance += calcForceExertedByX(others[index]);
+      }
+    }
+    return distance;
+  }
+  public double calcNetForceExertedByY(Planet[] others) {
+    int index = 0;
+    double distance = 0.0;
+    for (; index < others.length; index++) {
+      if (!this.equals(others[index])) {
+          distance += calcForceExertedByY(others[index]);
+      }
+    }
+    return distance;
+  }
 }
