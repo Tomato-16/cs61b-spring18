@@ -23,4 +23,8 @@ public class Planet {
       return Math.sqrt((other.xxPos - this.xxPos)*(other.xxPos - this.xxPos) +
                        (other.yyPos - this.yyPos)*(other.yyPos - this.yyPos));
   }
+
+  public double calcForceExertedBy(Planet other) {
+    return 6.67E-11 * this.mass * other.mass / (calcDistance(other) * calcDistance(other));
+  }
 }
