@@ -59,4 +59,14 @@ public class Planet {
     }
     return distance;
   }
+
+  /** calculate the updated value of Planet */
+  public void update(double dt, double fX, double fY) {
+    double accelerationX = fX / this.mass;
+    double accelerationY = fY / this.mass;
+    xxVel += dt * accelerationX;
+    yyVel += dt * accelerationY;
+    xxPos += dt * xxVel;
+    yyPos += dt * yyVel;
+  }
 }
