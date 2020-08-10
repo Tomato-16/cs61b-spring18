@@ -46,5 +46,40 @@ public class NBody {
     for (int i = 0; i < number; i++) {
       planets[i].draw();
     }
+
+    /** the part of animation */
+    StdDraw.enableDoubleBuffering();
+    double[] xForces = new double[number];
+    double[] yForces = new double[number];
+    for (double timeVariable = 0; timeVariable <= T; timeVariable += dt) {
+      /** this part must be at the first of the loop */
+      StdDraw.setScale(-radius, radius);
+      StdDraw.clear();
+      StdDraw.picture(0, 0, imagePath);
+      /*---------------------------------------------*/
+
+      /** doing calculation */
+      for (int j = 0; j < number; j++) {
+        xForces[j] = planets[j].calcNetForceExertedByX(planets);
+        yForces[j] = planets[j].calcNetForceExertedByY(planets);
+      }
+      /** don't update until all the forces are calculated */
+      for (int k = 0; k < number; k++) {
+        planets[k].update(dt, xForces[k], yForces[k]);
+        planets[k].draw(); //draw the Planet by the way
+      }
+
+      /** pause for a while */
+      StdDraw.show();
+      StdDraw.pause(10);
+    }
+
+    /** printing the data of the universe */
+    StdOut.printf("%d\n", planets.length);
+    StdOut.printf("%.2e\n", radius);
+    for (int i = 0; i < planets.length; i++) {
+    	StdOut.printf("%11.4e %11.4e %11.4e %11.4e %11.4e %12s\n",
+       		planets[i].xxPos, planets[i].yyPos, planets[i].xxVel, planets[i].yyVel, planets[i].mass, planets[i].imgFileName);
+    }
   }
 }
