@@ -26,4 +26,25 @@ public class NBody {
     }
     return planets;
   }
+
+  /** main method */
+  public static void main(String args[]) {
+    double T = Double.parseDouble(args[0]);
+    double dt = Double.parseDouble(args[1]);
+    String filename = args[2];
+    double radius = NBody.readRadius(filename);
+    Planet[] planets = NBody.readPlanets(filename);
+    String imagePath = "./images/starfield.jpg";
+
+    /** draw the background image */
+    StdDraw.setScale(-radius, radius);
+    StdDraw.clear();
+    StdDraw.picture(0, 0, imagePath);
+
+    /** draw all the Planets */
+    int number = planets.length;
+    for (int i = 0; i < number; i++) {
+      planets[i].draw();
+    }
+  }
 }
