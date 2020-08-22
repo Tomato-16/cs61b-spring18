@@ -1,12 +1,16 @@
 public class LinkedListDeque<T> {
-    /* data used in the class */
-    private int size;           //use "size" to cache the information
-    private Node sentinel;      //using circular approach
-    private class Node {       //make Node "inner class" to avoid naked data structures
+    /* data used in the class
+    use "size" to cache the information
+    using circular approach
+    make Node "inner class" to avoid naked data structures
+     */
+    private int size;
+    private Node sentinel;
+    private class Node {
         private T item;
         private Node prev;
         private Node next;
-        public Node(T i, Node p, Node n) {
+        Node(T i, Node p, Node n) {
             item = i;
             prev = p;
             next = n;
