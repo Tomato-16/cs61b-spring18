@@ -74,16 +74,41 @@ public class ArrayDeque<T> {
         }
         System.out.println();
     }
-    /*
+
     public boolean isEmpty() {
         return size == 0;
     }
     public int size() {
         return size;
     }
+    /* remove the first and last item of the deque */
+    public T removeFirst() {
+        int originFirst = indexInc(first);
+        first = indexInc(first);
+        size -= 1;
+        T temp = items[originFirst];  //to avoid loitering, keep the reference in temp variable
+        items[originFirst] = null;    // avoid loitering
+        if ((float)size / items.length < 0.25) {
+            resize(items.length / 2);
+        }
+        return temp;
+    }
+    public T removeLast() {
+        int originLast = indexDec(last);
+        last = indexDec(last);
+        size -= 1;
+        T temp = items[originLast];  //to avoid loitering, keep the reference in temp variable
+        items[originLast] = null;    // avoid loitering
+        if ((float)size / items.length < 0.25) {
+            resize(items.length / 2);
+        }
+        return temp;
+    }
 
-    public T removeFirst() {}
-    public T removeLast() {}
-    public T get(int index) {}
+    /* index starts at 0, so the corresponding index in the circular array
+    should be (first+index+1) % items.length
      */
+    public T get(int index) {
+        return items[(first+index+1) % items.length];
+    }
 }
