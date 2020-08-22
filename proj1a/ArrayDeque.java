@@ -2,11 +2,14 @@ public class ArrayDeque<T> {
     /* data used in the class */
     private int size;
     private T[] items;
-    private int first;  // the next item we want to addFirst will be in index first
-    private int last;   // the next item we want to addLast will be in index last
-    // when indexInc(first) == last, the deque is either empty
-    // when first == last, the deque is full
-    // the array at index first and last should not hold any item
+    private int first;
+    private int last;
+    /* the next item we want to addFirst will be in index first
+       the next item we want to addLast will be in index last
+       when indexInc(first) == last, the deque is either empty
+       when first == last, the deque is full
+       the array at index first and last should not hold any item
+     */
 
     /* constructor method */
     public ArrayDeque() {
@@ -83,23 +86,31 @@ public class ArrayDeque<T> {
     }
     /* remove the first and last item of the deque */
     public T removeFirst() {
+        if (size == 0) {
+            return null;
+        }
         int originFirst = indexInc(first);
         first = indexInc(first);
         size -= 1;
-        T temp = items[originFirst];  //to avoid loitering, keep the reference in temp variable
-        items[originFirst] = null;    // avoid loitering
-        if ((float)size / items.length < 0.25) {
+        // to avoid loitering, keep the reference in temp variable
+        T temp = items[originFirst];
+        items[originFirst] = null;
+        if ((float) size / items.length < 0.25) {
             resize(items.length / 2);
         }
         return temp;
     }
     public T removeLast() {
+        if (size == 0) {
+            return null;
+        }
         int originLast = indexDec(last);
         last = indexDec(last);
         size -= 1;
-        T temp = items[originLast];  //to avoid loitering, keep the reference in temp variable
-        items[originLast] = null;    // avoid loitering
-        if ((float)size / items.length < 0.25) {
+        // to avoid loitering, keep the reference in temp variable
+        T temp = items[originLast];
+        items[originLast] = null;
+        if ((float) size / items.length < 0.25) {
             resize(items.length / 2);
         }
         return temp;
@@ -109,6 +120,6 @@ public class ArrayDeque<T> {
     should be (first+index+1) % items.length
      */
     public T get(int index) {
-        return items[(first+index+1) % items.length];
+        return items[(first + index + 1) % items.length];
     }
 }

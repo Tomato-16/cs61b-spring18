@@ -1,11 +1,11 @@
 public class LinkedListDeque<T> {
     /* data used in the class */
-    public int size;           //use "size" to cache the information
-    public Node sentinel;      //using circular approach
+    private int size;           //use "size" to cache the information
+    private Node sentinel;      //using circular approach
     private class Node {       //make Node "inner class" to avoid naked data structures
-        public T item;
-        public Node prev;
-        public Node next;
+        private T item;
+        private Node prev;
+        private Node next;
         public Node(T i, Node p, Node n) {
             item = i;
             prev = p;
@@ -51,6 +51,9 @@ public class LinkedListDeque<T> {
     }
     /* remove the item from the first and last of the Deque */
     public T removeFirst() {
+        if (size == 0) {
+            return null;
+        }
         size -= 1;
         Node originFirst = sentinel.next;
         sentinel.next = originFirst.next;
@@ -58,6 +61,9 @@ public class LinkedListDeque<T> {
         return originFirst.item;
     }
     public T removeLast() {
+        if (size == 0) {
+            return null;
+        }
         size -= 1;
         Node originLast = sentinel.prev;
         sentinel.prev = originLast.prev;
@@ -82,7 +88,7 @@ public class LinkedListDeque<T> {
         if (indices == 0) {
             return current.item;
         } else {
-         return getHelper(current.next, indices - 1);
+            return getHelper(current.next, indices - 1);
         }
     }
 }
