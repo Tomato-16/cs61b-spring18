@@ -39,12 +39,7 @@ public class ArrayDeque<T> {
     /* private helper method to help to calculate the index after increment and
       decrement in the circular array */
     private int indexInc(int i) {
-        i += 1;
-        if (i == items.length) {
-            return 0;
-        } else {
-            return i;
-        }
+        return (i + 1) % items.length;
     }
     private int indexDec(int i) {
         i -= 1;
@@ -56,6 +51,9 @@ public class ArrayDeque<T> {
     }
     /* private helper method to resize the array */
     private void resize(int capacity) {
+        if (capacity < 2) {
+            return;
+        }
         int pOrigin = indexInc(first);
         int pResize = 1;
         T[] resizedArray = (T[]) new Object[capacity];
