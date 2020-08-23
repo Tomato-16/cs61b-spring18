@@ -6,7 +6,7 @@ public class ArrayDeque<T> {
     private int last;
     /* the next item we want to addFirst will be in index first
        the next item we want to addLast will be in index last
-       when indexInc(first) == last, the deque is either empty
+       when indexInc(first) == last, the deque is empty
        when first == last, the deque is full
        the array at index first and last should not hold any item
      */
@@ -18,8 +18,11 @@ public class ArrayDeque<T> {
         first = 0;
         last = 1;
     }
-    /* methods of the class */
-    /* add items to the first and last */
+    /* add items to the first and last
+    * Check if the deque is full, if so then resize.
+    * add item to index first and last, and decrement first,
+    * increment last, finally update size.
+     */
     public void addFirst(T item) {
         if (first == last) {
             resize(2 * items.length);
@@ -51,9 +54,18 @@ public class ArrayDeque<T> {
     }
     /* private helper method to resize the array */
     private void resize(int capacity) {
+        /* this step is very very very important!!!
+        Because the first and last must occupy 2 positions, without this check,
+        the item.length can shrink to 1 or 0 when we randomly add and remove items, meanwhile
+        first and last still exit, leading to IndexOutOfBoundsException.
+         */
         if (capacity < 2) {
             return;
         }
+        /* set 2 pointers pointing at the origin array and the new array
+        these 2 pointers move together, when the pOrigin reaches the last,
+        pResize is also at the new array's last position
+         */
         int pOrigin = indexInc(first);
         int pResize = 1;
         T[] resizedArray = (T[]) new Object[capacity];
@@ -75,7 +87,7 @@ public class ArrayDeque<T> {
         }
         System.out.println();
     }
-
+    /* check if the deque is empty and check the size of the deque */
     public boolean isEmpty() {
         return size == 0;
     }
@@ -84,13 +96,14 @@ public class ArrayDeque<T> {
     }
     /* remove the first and last item of the deque */
     public T removeFirst() {
+        // to avoid negative size, which happens when removing from an empty deque
         if (size == 0) {
             return null;
         }
         int originFirst = indexInc(first);
         first = indexInc(first);
         size -= 1;
-        // to avoid loitering, keep the reference in temp variable
+        // to avoid loitering, keep the reference in temp variable and null out
         T temp = items[originFirst];
         items[originFirst] = null;
         if ((float) size / items.length < 0.25) {
@@ -99,13 +112,13 @@ public class ArrayDeque<T> {
         return temp;
     }
     public T removeLast() {
+        // basically follows the same pattern as removeFirst method
         if (size == 0) {
             return null;
         }
         int originLast = indexDec(last);
         last = indexDec(last);
         size -= 1;
-        // to avoid loitering, keep the reference in temp variable
         T temp = items[originLast];
         items[originLast] = null;
         if ((float) size / items.length < 0.25) {
@@ -113,7 +126,6 @@ public class ArrayDeque<T> {
         }
         return temp;
     }
-
     /* index starts at 0, so the corresponding index in the circular array
     should be (first+index+1) % items.length
      */

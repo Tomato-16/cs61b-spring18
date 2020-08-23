@@ -1,5 +1,5 @@
 public class LinkedListDeque<T> {
-    /* data used in the class
+    /* data used in the class, should be private
     use "size" to cache the information
     using circular approach
     make Node "inner class" to avoid naked data structures
@@ -17,24 +17,27 @@ public class LinkedListDeque<T> {
         }
     }
 
-    /* create an empty linked list deque */
+    /* create an empty linked list deque, sentinel's prev and next point at sentinel itself */
     public LinkedListDeque() {
         size = 0;
         sentinel = new Node(null, null, null);
         sentinel.prev = sentinel;
         sentinel.next = sentinel;
     }
-    /* add item to the first and last of the Deque */
+    /* add item to the first and last of the Deque
+    * focus on two Nodes: originFirst / originLast and the sentinel node
+    * after adding, pay attention to what happens to these 2 nodes
+     */
     public void addFirst(T item) {
         size += 1;
         Node originFirst = sentinel.next;
-        sentinel.next = new Node(item, sentinel, sentinel.next);
+        sentinel.next = new Node(item, sentinel, originFirst);
         originFirst.prev = sentinel.next;
     }
     public void addLast(T item) {
         size += 1;
         Node originLast = sentinel.prev;
-        sentinel.prev = new Node(item, sentinel.prev, sentinel);
+        sentinel.prev = new Node(item, originLast, sentinel);
         originLast.next = sentinel.prev;
     }
     /* test if the Deque is empty */
@@ -55,6 +58,7 @@ public class LinkedListDeque<T> {
     }
     /* remove the item from the first and last of the Deque */
     public T removeFirst() {
+        // to avoid negative size
         if (size == 0) {
             return null;
         }
