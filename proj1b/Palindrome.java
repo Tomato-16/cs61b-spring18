@@ -7,4 +7,9 @@ public class Palindrome {
         }
         return arrayDeque;
     }
+
+    /* */
+    public boolean isPalindrome(String word) {
+        return true;
+    }
 }
