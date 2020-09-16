@@ -16,7 +16,7 @@ public class Palindrome {
     private boolean palindromeHelper(Deque<Character> deque) {
         if (deque.size() == 1 || deque.size() == 0) {
             return true;
-        } else if (deque.removeFirst() == deque.removeLast()){
+        } else if (deque.removeFirst() == deque.removeLast()) {
             return palindromeHelper(deque);
         } else {
             return false;
@@ -30,7 +30,7 @@ public class Palindrome {
     private boolean palindromeHelper(Deque<Character> deque, CharacterComparator cc) {
         if (deque.size() == 1 || deque.size() == 0) {
             return true;
-        } else if (cc.equalChars(deque.removeFirst(), deque.removeLast())){
+        } else if (cc.equalChars(deque.removeFirst(), deque.removeLast())) {
             return palindromeHelper(deque, cc);
         } else {
             return false;
