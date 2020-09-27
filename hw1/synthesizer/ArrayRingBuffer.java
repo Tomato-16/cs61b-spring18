@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 //TODO: Make sure to make this class and all of its methods public
 //TODO: Make sure to make this class extend AbstractBoundedQueue<t>
-public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
+public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> implements Iterable<T> {
     /* Index for the next dequeue or peek. */
     private int first;            // index for the next dequeue or peek
     /* Index for the next enqueue. */
@@ -35,9 +35,12 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
      */
     public void enqueue(T x) {
         // TODO: Enqueue the item. Don't forget to increase fillCount and update last.
+        if (isFull()) {
+            throw new RuntimeException("Ring Buffer Overflow");
+        }
         rb[last] = x;
         fillCount += 1;
-        last = (last+1) % capacity;
+        last = (last + 1) % capacity;
     }
 
     /**
@@ -47,10 +50,13 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
      */
     public T dequeue() {
         // TODO: Dequeue the first item. Don't forget to decrease fillCount and update first.
+        if (isEmpty()) {
+            throw new RuntimeException("Ring Buffer Underflow");
+        }
         T temp = rb[first];
         rb[first] = null;
         fillCount -= 1;
-        first = (first+1) % capacity;
+        first = (first + 1) % capacity;
         return temp;
     }
 
@@ -59,8 +65,37 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
      */
     public T peek() {
         // TODO: Return the first item. None of your instance variables should change.
+        if (isEmpty()) {
+            throw new RuntimeException("cocoda!");
+        }
         return rb[first];
     }
 
     // TODO: When you get to part 5, implement the needed code to support iteration.
+    public Iterator<T> iterator() {
+        return new QueueIterator();
+    }
+
+    private class QueueIterator implements Iterator<T> {
+        private int ptr;
+        private int i;
+
+        QueueIterator() {
+            ptr = first;
+            i = 0;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return i != fillCount;
+        }
+
+        @Override
+        public T next() {
+            T temp = rb[first];
+            ptr = (ptr + 1) % capacity;
+            i += 1;
+            return temp;
+        }
+    }
 }
