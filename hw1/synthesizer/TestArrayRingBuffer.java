@@ -14,16 +14,9 @@ public class TestArrayRingBuffer {
         arb.enqueue(3);
         arb.enqueue(5);
         arb.enqueue(6);
-        assertEquals(2, (int) arb.peek());
-        assertTrue(arb.isFull());
-        arb.dequeue();
-        assertEquals(3, (int) arb.peek());
-        arb.dequeue();
-        assertEquals(5, (int) arb.peek());
-        arb.dequeue();
-        assertEquals(6, (int) arb.peek());
-        arb.dequeue();
-        assertTrue(arb.isEmpty());
+        for (double i: arb) {
+            System.out.println(i);
+        }
     }
 
     /** Calls tests for ArrayRingBuffer. */
