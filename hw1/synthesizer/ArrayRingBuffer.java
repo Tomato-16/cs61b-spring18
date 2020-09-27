@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 //TODO: Make sure to make this class and all of its methods public
 //TODO: Make sure to make this class extend AbstractBoundedQueue<t>
-public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> implements Iterable<T> {
+public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T>{
     /* Index for the next dequeue or peek. */
     private int first;            // index for the next dequeue or peek
     /* Index for the next enqueue. */
@@ -66,7 +66,7 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> implements Itera
     public T peek() {
         // TODO: Return the first item. None of your instance variables should change.
         if (isEmpty()) {
-            throw new RuntimeException("cocoda!");
+            throw new RuntimeException("Ring Buffer Underflow");
         }
         return rb[first];
     }
