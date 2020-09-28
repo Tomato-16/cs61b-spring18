@@ -21,7 +21,7 @@ public class GuitarString {
         int capacity = (int) Math.round(SR / frequency);
         buffer = new ArrayRingBuffer<>(capacity);
         // it's very important to set every item in buffer to zero!!!
-        for (int i=0; i<buffer.capacity(); i++) {
+        for (int i = 0; i < buffer.capacity(); i++) {
             buffer.enqueue(0.0);
         }
     }
