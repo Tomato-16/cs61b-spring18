@@ -21,8 +21,9 @@ public class PercolationStats {
             // for each time perform an experiment
             Percolation percolation = pf.make(N);
             while (!percolation.percolates()) {
-                int row = StdRandom.uniform(0,length + 1);
-                int col = StdRandom.uniform(0,length + 1);
+                // pay attention to the two bounds of uniform
+                int row = StdRandom.uniform(0, length);
+                int col = StdRandom.uniform(0, length);
                 percolation.open(row, col);
             }
             results[i] = 1.0 * percolation.numberOfOpenSites() / (length * length);
