@@ -11,7 +11,7 @@ public class Percolation {
     private int numOfOpen;
 
     // private helper method used to convert the ideal indices in matrix to actual indices in UF
-    private int UFNumber(int row, int col) {
+    private int xy2Uf(int row, int col) {
         return row * length + col;
     }
 
@@ -20,11 +20,11 @@ public class Percolation {
         if (N <= 0) {
             throw new IllegalArgumentException("N must > 0 ");
         }
-        weightedQuickUnionUF = new WeightedQuickUnionUF(N*N + 2);
+        weightedQuickUnionUF = new WeightedQuickUnionUF(N * N + 2);
         siteStatus = new boolean[N][N];
         length = N;
-        topSite = N*N;
-        bottomSite = N*N + 1;
+        topSite = N * N;
+        bottomSite = N * N + 1;
         numOfOpen = 0;
     }
 
@@ -46,33 +46,29 @@ public class Percolation {
     // private helper method used to connect surrounding open sites
     // no need to BFS search through the array!!
     private void connectSurroundOpen(int row, int col) {
-        int thisSite = UFNumber(row, col);
+        int thisSite = xy2Uf(row, col);
         // check upSite
         if (row == 0) {
             weightedQuickUnionUF.union(thisSite, topSite);
-        } else if (siteStatus[row-1][col]){
-            int upSite = UFNumber(row-1, col);
+        } else if (siteStatus[row - 1][col]) {
+            int upSite = xy2Uf(row - 1, col);
             weightedQuickUnionUF.union(thisSite, upSite);
         }
         // check downSite
         if (row == length - 1) {
             weightedQuickUnionUF.union(thisSite, bottomSite);
-        } else if (siteStatus[row+1][col]) {
-            int downSite = UFNumber(row+1, col);
+        } else if (siteStatus[row + 1][col]) {
+            int downSite = xy2Uf(row + 1, col);
             weightedQuickUnionUF.union(thisSite, downSite);
         }
         // check leftSite
-        if (col == 0) {
-            ;
-        } else if (siteStatus[row][col - 1]) {
-            int leftSite = UFNumber(row, col-1);
+        if (col != 0 && siteStatus[row][col - 1]) {
+            int leftSite = xy2Uf(row, col - 1);
             weightedQuickUnionUF.union(thisSite, leftSite);
         }
         // check rightSite
-        if (col == length - 1) {
-            ;
-        } else if (siteStatus[row][col+1]) {
-            int rightSite = UFNumber(row, col+1);
+        if (col != length - 1 && siteStatus[row][col + 1]) {
+            int rightSite = xy2Uf(row, col + 1);
             weightedQuickUnionUF.union(thisSite, rightSite);
         }
     }
@@ -89,7 +85,7 @@ public class Percolation {
     // is the site (row, col) full?
     public boolean isFull(int row, int col) {
         if (row >= 0 && row <= length - 1 && col >= 0 && col <= length - 1) {
-            int thisSite = UFNumber(row, col);
+            int thisSite = xy2Uf(row, col);
             return weightedQuickUnionUF.connected(thisSite, topSite);
         } else {
             throw new IndexOutOfBoundsException("row and col must between 0 and N-1");
